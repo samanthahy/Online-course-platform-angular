@@ -1,0 +1,69 @@
+.receipt-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.receipt-title {
+  margin-top: 25px;
+  margin-bottom: 50px;
+  font-size: xx-large;
+  font-weight: bold;
+  font-family: "Times New Roman";
+}
+
+.receipt-sub-title {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.company-name {
+  font-size: x-large;
+  margin-bottom: 20px;
+}
+
+
+.space-between-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.order-details {
+  font-size: medium;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.order-details span {
+  font-weight: normal;
+}
+
+
+h1 {
+  text-align: center;
+}
+
+.order-details {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+table {
+  margin-top: 70px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+  height: 30px;
+}
+
+.total {
+  text-align: right;
+  font-weight: bold;
+  margin-top: 20px;
+}

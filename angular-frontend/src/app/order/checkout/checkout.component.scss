@@ -1,0 +1,57 @@
+.checkout-title  {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: xx-large;
+  font-weight: bold;
+  font-family: "Times New Roman";
+
+}
+
+
+.checkout-order-detail-course-image {
+  width: 90px;
+  height: 54px;
+}
+
+.checkout-order-detail-course-title {
+  font-size: small;
+}
+
+/*.checkout-order-course-price {
+  text-align: right;
+}*/
+
+.checkout-complete-checkout-container {
+  margin-top: 75px;
+}
+
+mat-form-field {
+  margin-right: 25px;
+}
+
+.checkout-info-container, .checkout-progress-bar-container {
+  margin-left:250px;
+}
+
+.checkout-button-container .checkout-button {
+  margin-top: 20px;
+  width: 250px;
+  height: 60px;
+  color: white;
+  background-color: mediumpurple;
+}
+
+.checkout-summary-total {
+  font-weight: bold;
+}
+
+.checkout-summary-title, .checkout-order-detail-title, .checkout-payment-title ,.checkout-billing-title{
+  margin-top: 30px;
+  font-size: large;
+}
+
+
+app-no-courses-found {
+  margin-left: auto;
+  margin-right: auto;
+}
