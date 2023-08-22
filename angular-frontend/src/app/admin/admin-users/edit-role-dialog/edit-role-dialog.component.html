@@ -1,0 +1,19 @@
+
+<h2 mat-dialog-title>Edit User Role</h2>
+<h3 style="margin-left:20px;">Select the new role for {{fullname}}</h3>
+
+<mat-dialog-content>
+  <mat-radio-group [(ngModel)]="selectedRole">
+    <mat-radio-button value="ROLE_ADMIN">Admin</mat-radio-button>
+    <p class="role-description">Manage every user, course and setting in this account.</p>
+    <mat-radio-button value="ROLE_STUDENT">Student</mat-radio-button>
+    <p class="role-description">Skills for your present by getting exposed to thousands of courses.</p>
+    <mat-radio-button value="ROLE_INSTRUCTOR">Instructor</mat-radio-button>
+    <p  class="role-description">Turn what you know into courses and reach millions around the world.</p>
+  </mat-radio-group>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save changes</button>
+</mat-dialog-actions>

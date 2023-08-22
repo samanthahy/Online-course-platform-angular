@@ -1,0 +1,26 @@
+
+:host {
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: space-around;
+  align-items: stretch;
+  text-align: center;
+
+  width: 400px;
+  height: 650px;
+  max-width: 100%;
+
+  .mat-form-field {
+    margin: 12px 0;
+  }
+
+  .pwd { cursor: pointer; }
+
+  .btn {
+    margin-top: 10px;
+    min-height: 48px;
+    margin-bottom: 0px;
+  }
+}
