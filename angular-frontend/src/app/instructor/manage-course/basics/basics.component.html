@@ -1,0 +1,123 @@
+
+<form [formGroup]="form" (ngSubmit)="submit()" fxFlex >
+  <h1 class="manage-course-title">Course landing page</h1>
+  <div fxLayout="row">
+    <div fxLayout="column">
+      <mat-form-field class="course-title">
+        <p class="manage-course-question">Course title</p>
+        <input matInput placeholder="Insert your course title." formControlName="courseTitle">
+      </mat-form-field>
+
+
+      <mat-form-field class="course-subtitle">
+        <p class="manage-course-question">Course subtitle</p>
+        <input matInput placeholder="Insert your course subtitle." formControlName="courseSubtitle">
+      </mat-form-field>
+
+
+      <!--        <textarea matInput  placeholder="Insert your course course description."
+                  formControlName="courseDescription"></textarea>-->
+
+      <mat-form-field class="course-description">
+        <p class="manage-course-question">Course description</p>
+        <textarea matInput formControlName="courseDescription" style="display: none;"></textarea>
+        <div id="tinyMceEditor"></div>
+      </mat-form-field>
+
+
+
+      <div formGroupName="basicInfo">
+        <p class="manage-course-question">Basic info</p>
+        <div fxLayout="row" fxLayoutGap="30px">
+          <mat-form-field class="course-select">
+            <mat-select formControlName="courseLanguage" placeholder="Course Language">
+              <mat-option value="English">English</mat-option>
+              <mat-option value="Chinese">Chinese</mat-option>
+              <mat-option value="Spanish">Spanish</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field  class="course-select">
+            <mat-select formControlName="courseLevel" placeholder="Course Level">
+              <mat-option value="Beginner">Beginner</mat-option>
+              <mat-option value="Intermediate">Intermediate</mat-option>
+              <mat-option value="Expert">Expert</mat-option>
+              <mat-option value="All level">All level</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div formGroupName="courseCategory" fxLayout="column">
+            <mat-form-field  class="course-select">
+              <mat-select formControlName="mainCategory" placeholder="Select Category">
+                <mat-option value="Development">Development</mat-option>
+                <mat-option value="IT Software">IT Software</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field  class="course-select">
+              <mat-select formControlName="subCategory" placeholder="Select Subcategory">
+                <mat-option *ngFor="let subCategory of subCategories" [value]="subCategory">
+                  {{subCategory}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <mat-form-field class="course-topic">
+        <p class="manage-course-question">What is primarily taught in your course</p>
+        <mat-select formControlName="courseTopic" placeholder="Course Topic">
+          <mat-option *ngFor="let topic of courseTopics" [value]="topic">
+            {{topic}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <div fxLayout="column">
+        <p class="manage-course-question">Course image</p>
+        <div fxLayout="row" fxLayoutGap="30px">
+          <img class="course-picture" [src]="imagePreview || 'assets/courseimage-placeholder.jpg'" alt="Course Image">
+
+          <mat-form-field class="course-image" fxLayout="column">
+            <p>Upload your course image here. Important guidelines: 750x422 pixels; .jpg, .jpeg,. gif, or .png. no text on the image.</p>
+            <div fxLayout="row">
+              <input type="text" readonly matInput formControlName="courseImage" placeholder="No file selected"
+                     fxFlex="80%"/>
+              <input type="file" hidden #f_input   (change)="OnFileSelected(f_input.files)" />
+              <button mat-button color="primary" (click)="f_input.click()">Upload File</button>
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field class="course-select">
+        <p class="manage-course-question">Course Price</p>
+        <mat-select formControlName="coursePrice" placeholder="Course Price">
+          <mat-option [value]="0.00">Free</mat-option>
+          <mat-option [value]="19.99">$14.99</mat-option>
+          <mat-option [value]="19.99">$19.99</mat-option>
+          <mat-option [value]="24.99">$24.99</mat-option>
+          <mat-option [value]="29.99">$29.99</mat-option>
+          <mat-option [value]="34.99">$34.99</mat-option>
+          <mat-option [value]="39.99">$39.99</mat-option>
+          <mat-option [value]="44.99">$44.99</mat-option>
+          <mat-option [value]="199.99">$199.99</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <p class="manage-course-question">Instructor profile</p>
+      <p>
+        All visible instructors of this course must complete their profile before the course can be published.
+        This includes name, image, and a short summary of your background 50 words minimum.
+      </p>
+    </div>
+
+    <div class="parent-container">
+      <button mat-raised-button color="primary" type="submit" class="manage-course-save-button">Save</button>
+    </div>
+
+  </div>
+</form>

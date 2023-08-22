@@ -1,0 +1,87 @@
+.instructor-performance-container {
+  margin-top:30px;
+  margin-left: 150px;
+}
+
+.instructor-performance-title {
+  font-size: xx-large; /* Adjust this value to make the text larger or smaller */
+  font-weight: bold;
+}
+
+
+.numbers-container {
+  text-align: left;
+
+}
+
+.number-item {
+  flex: 1;
+  display: flex;
+  align-items: center; /* Vertical alignment in case the content isn't the same height */
+  justify-content: flex-start; /* Alignment to the left */
+}
+
+.number {
+  font-size: 28px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+
+.review-chart-container {
+  display: flex;
+  justify-content: space-between;
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+
+.revenue-chart-container {
+  display: flex;
+  justify-content: space-between;
+  flex: 0 0 50%;
+  max-width: 50%;
+  margin-left: 120px;
+}
+
+
+.review-chart-item {
+}
+
+.revenue-chart-item {
+
+}
+
+.sub-title {
+  font-weight: bolder;
+  font-size: x-large;
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
+.sub-sub-title {
+  font-weight: bolder;
+}
+.star-icon {
+  color: yellow;
+  margin-right: 5px;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+
+.stars {
+  display: flex;
+}
+
+.star {
+  font-size: 20px;
+  color: lightgray; /* Inactive star color */
+}
+
+.star.active {
+  color: gold; /* Active star color */
+}

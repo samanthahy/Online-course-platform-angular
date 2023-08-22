@@ -1,0 +1,33 @@
+<div class="col-sm-12 manage-courses-container" fxLayout="row">
+  <div class="col-sm-11 stepper">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup" [completed]="step1Completed">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Step 1: Plan your course</ng-template>
+          <app-goals (onComplete)="onCompleteStep1()"></app-goals>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup" [completed]="step2Completed">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Step 2: Create your content</ng-template>
+          <app-curriculum (onComplete)="onCompleteStep2()"></app-curriculum>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="thirdFormGroup" [completed]="step3Completed">
+        <form [formGroup]="thirdFormGroup">
+          <ng-template matStepLabel>Step 3: Publish your course</ng-template>
+          <app-basics (onComplete)="onCompleteStep3()"></app-basics>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+
+  <!-- "Submit for Review" button -->
+  <div class="col-sm-1 submit-button-container">
+    <button mat-raised-button *ngIf="allComponentsComplete()" (click)="submitForReview()"
+            class="submit-for-review-button">
+    Submit for Review
+    </button>
+  </div>
+
+</div>
