@@ -1,0 +1,26 @@
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: transparent;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field {
+  padding-left: 0;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+.mat-menu-panel, .mat-menu-content {
+  background-color: black !important;
+}
+
+.mat-menu-item {
+  color: white !important;
+}
+
+.mat-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
