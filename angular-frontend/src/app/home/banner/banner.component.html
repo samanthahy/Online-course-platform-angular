@@ -1,0 +1,20 @@
+
+
+
+
+<div class="banner-container">
+  <carousel [noWrap]="false" [interval]="5000"> <!-- 5000ms = 5s -->
+    <slide *ngFor="let course of promotedCourses">
+      <a [routerLink]="['/course-detail', course.id] "  style="text-decoration: none; color: inherit;">
+        <div class="course-card" fxFlex="column" fxLayoutGap="10px">
+          <img [src]="course.courseImage.filePath" alt="Course image">
+          <h3>{{ course.name }}</h3>
+          <p>{{ course.overview }}</p>
+        </div>
+      </a>
+
+    </slide>
+  </carousel>
+</div>
+
+

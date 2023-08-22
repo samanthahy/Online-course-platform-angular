@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-sm">
+  <a class="navbar-brand company-name" href="#">{{title}}</a>
+  <button class="navbar-toggler" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav1">
+
+    <ul class="navbar-nav main-nav-item-container">
+
+      <li class="nav-item">
+        <!-- routerLinkActive 的作用是，当当前routerLink被激活时，后面的css被运用，这里设置为bootstrap的内置class ‘active’-->
+        <a routerLink="/home" routerLinkActive="active" class="nav-link">Home</a>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/courses" routerLinkActive="my-active" class="nav-link">Courses</a>
+      </li>
+
+      <li class="nav-item categories-btn">
+        <!-- Just delete the button. The new category-menu component will handle its own trigger button. -->
+        <app-category-menu *ngIf="categories.length" [categories]="categories"></app-category-menu>
+      </li>
+
+      <form class="search-form d-flex" (submit)="onSearchSubmit()">
+        <input type="text" [(ngModel)]="searchTerm" name="searchTerm">
+        <button class="btn btn-outline-success search-form-submit-btn" type="submit">Search</button>
+      </form>
+
+
+
+
+
+    </ul>
+
+    <ul class="navbar-nav ms-auto nav-profile">                <!--// ms-auto 是bootstrap内置的margin start
+    auto类，可以使login靠右-->
+      <li class="nav-item">
+        <a (click)="onTeachOnUdemyClick()" routerLinkActive="my-active" class="nav-link">Teach on Eureka</a>
+      </li>
+      <li routerLink="/cart" class="nav-item">
+        <a routerLinkActive="my-active" class="nav-link">
+          <fa-icon [icon]="faShoppingCart"></fa-icon>
+          <ng-container *ngIf="cartItemCount$ | async as count">
+            <span *ngIf="count > 0" class="cart-count-badge">{{ count }}</span>
+          </ng-container>
+        </a>
+      </li>
+
+      <li class="nav-item" *ngIf="!auth.user">
+        <a routerLink="/login" routerLinkActive="my-active" class="nav-link">Login</a>
+      </li>
+      <li class="nav-item" *ngIf="!auth.user">
+        <a routerLink="/register" routerLinkActive="my-active" class="nav-link">Register</a>
+      </li>
+
+      <ng-container *ngIf="auth.user">
+        <ng-container *ngTemplateOutlet="logoutTemplate"></ng-container>
+      </ng-container>
+
+      <ng-template #logoutTemplate>
+        <li class="nav-item">
+          <a (click)="auth.logout()" routerLinkActive="my-active" class="nav-link">Logout</a>
+        </li>
+        <li class="nav-item" *ngIf="currentUser && auth.user && auth.user.role">
+          <a [routerLink]="['/'+convertRole(auth.user.role)+'/profile']" routerLinkActive="my-active"
+             class="profile-image-link">
+            <app-profile-image [firstname]="currentUser.firstname" [lastname]="currentUser.lastname"
+                                                 [imageUrl]="currentUser.profileImage ? currentUser.profileImage.filePath : null"
+                                                 [size]="30"
+                                                 [fontSize]="15">
+
+          </app-profile-image></a>
+        </li>
+      </ng-template>
+
+    </ul>
+  </div>
+</nav>
+
+
+

@@ -1,0 +1,39 @@
+.banner-container {
+  background-color: #f4f4f4;
+  padding: 20px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .course-card {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    img {
+      width: 1240px;
+      height: 450px;
+    }
+
+    h3 {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 26px;
+    }
+
+    p {
+      color: #333333;
+    }
+
+
+    .banner-container a {
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+
+  }
+
+}
