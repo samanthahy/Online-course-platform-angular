@@ -1,0 +1,59 @@
+<main class="container" style="margin-top: 20px;">
+  <div fxLayout fxLayoutAlign="center" style="margin: 50px 50px;">
+    <mat-card  class="register-card" fxLayout="column" fxFlex="1 1 30%" fxFlex.lt-sm="1 1 auto">
+      <mat-card-header>
+        <mat-card-title style="display: flex; flex-direction: column; align-items: center;">Sign up and start learning</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form  fxLayout="column" [formGroup]="registerFormGroup" (ngSubmit)="register()">
+          <mat-form-field>
+            <mat-label>Full Name</mat-label>
+            <input formControlName="fullname" type="text" matInput>
+            <mat-error *ngIf="registerFormGroup.get('fullname')?.getError('required')">Full name is
+              required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input formControlName="username" type="text" matInput>
+            <mat-error *ngIf="registerFormGroup.get('username')?.getError('required')">Username is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input formControlName="email" type="text" matInput>
+            <mat-error *ngIf="registerFormGroup.get('email')?.getError('email')">Email must be in email format</mat-error>
+            <mat-error *ngIf="registerFormGroup.get('email')?.getError('required')">Email is required</mat-error>
+          </mat-form-field>
+
+          <div fxLayout="column" formGroupName="passwordGroup">
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input formControlName="password" type="password" class="pwd" matInput>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Confirm Password</mat-label>
+              <input formControlName="confirmPassword" type="password" class="pwd" matInput>
+            </mat-form-field>
+            <mat-error>{{registerFormGroup.get('passwordGroup')?.getError('passwordNotMatch')}}</mat-error>
+          </div>
+
+          <mat-checkbox formControlName="isInstructor">Register as Instructor</mat-checkbox>
+
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <p>
+              <button type="submit" mat-raised-button color="primary" [disabled]="registerFormGroup.invalid">Register</button>
+            </p>
+            <p>
+              Already have an account? <a routerLink="/login" style="text-decoration: underline;">Log in</a>
+            </p>
+          </div>
+          <div class="alert alert-success" *ngIf="auth.user">
+            Your registration is successful!
+          </div>
+        </form>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+</main>

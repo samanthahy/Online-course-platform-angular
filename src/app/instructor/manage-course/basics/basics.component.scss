@@ -1,0 +1,47 @@
+.manage-course-title {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+
+.manage-course-question {
+  margin-top: 20px;
+  font-size: large;
+  font-weight: bold;
+}s
+
+mat-form-field {
+  width: 800px;
+}
+
+.course-select{
+  width: 300px;
+}
+
+.course-topic {
+  width: 500px;
+}
+
+.course-picture {
+  width: 450px;
+  height: 253px;
+  margin-bottom: 20px;
+}
+
+.course-image {
+  width: 550px;
+}
+
+.parent-container {
+  position: relative;
+}
+
+
+.manage-course-save-button {
+  position: absolute;
+  left: 150px;
+  top: 80px;
+  width: 250px;
+  height: 60px;
+  background-color: mediumpurple;
+}

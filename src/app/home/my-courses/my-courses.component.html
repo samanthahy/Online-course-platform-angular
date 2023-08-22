@@ -1,0 +1,48 @@
+
+<body>
+  <div class="col-sm-12 my-learning-container">
+    <div class="my-learning-header">
+      <h1 class="my-learning-title">
+        My learning
+      </h1>
+    </div>
+    <mat-tab-group backgroundColor="primary" color="white" mat-stretch-tabs="false"
+                   mat-align-tabs="center" >
+      <mat-tab label="All courses ">
+        <div class="first-content">
+          <div class="enrolled-courses-list-container courses-list-container">
+            <ng-container *ngIf="enrollments.length > 0">
+              <app-enrolled-course-overview *ngFor="let e of enrollments"
+                                            [enrollment]="e"
+                                            [instructor]="instructorsMap.get(e.course.id)"  >
+              </app-enrolled-course-overview>
+            </ng-container>
+
+            <div class="wishlist-empty-container" *ngIf="enrollments.length === 0">
+              <app-no-courses-found [title]="messageTitleEnrollment" [description]="messageDescription"></app-no-courses-found>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Wishlist">
+        <div class="second-content">
+          <div class="wishlist-courses-list-container courses-list-container">
+            <ng-container *ngIf="wishlistCourses.length > 0">
+              <app-course-overview *ngFor="let c of wishlistCourses"
+                                   [course]="c"
+                                   [instructor]="instructorsMap.get(c.id)" >
+              </app-course-overview>
+            </ng-container>
+
+            <div class="wishlist-empty-container" *ngIf="wishlistCourses.length === 0">
+              <app-no-courses-found [title]="messageTitleWishlist" [description]="messageDescription"></app-no-courses-found>
+            </div>
+
+          </div>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</body>

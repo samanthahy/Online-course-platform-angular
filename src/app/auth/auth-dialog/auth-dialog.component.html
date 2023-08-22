@@ -1,0 +1,62 @@
+
+<div fxLayout fxLayoutAlign="center" style="margin: 50px 50px;">
+  <mat-card> <!--fxLayout="column" fxFlex="1 1 50%" fxFlex.lt-sm="1 1 auto"-->
+    <mat-card-header>
+      <mat-card-title [@vanish]="dialogData.mode">{{ dialogData.mode === 'register' ? 'Become an Eureka instructor' : 'Log in to your Eureka account' }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form  fxLayout="column" [formGroup]="authFormGroup" (ngSubmit)="registerOrLogin()">
+
+        <mat-form-field *ngIf="dialogData.mode === 'register'" @morph>
+          <mat-label>Full Name</mat-label>
+          <input formControlName="fullname" type="text" matInput>
+          <mat-error *ngIf="authFormGroup.get('fullname')?.getError('required')" @morph>Full name is
+            required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field @morph>
+          <mat-label>Username</mat-label>
+          <input formControlName="username" type="text" matInput>
+          <mat-error *ngIf="authFormGroup.get('username')?.getError('required')" @morph>Username is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="dialogData.mode === 'register'" @morph>
+          <mat-label>Email</mat-label>
+          <input formControlName="email" type="text" matInput>
+          <mat-error *ngIf="authFormGroup.get('email')?.getError('email')">Email must be in email format</mat-error>
+          <mat-error *ngIf="authFormGroup.get('email')?.getError('required')">Email is required</mat-error>
+        </mat-form-field>
+
+        <div fxLayout="column" formGroupName="passwordGroup">
+          <mat-form-field @morph>
+            <mat-label>Password</mat-label>
+            <input formControlName="password" type="password" class="pwd" matInput>
+          </mat-form-field>
+          <mat-form-field *ngIf="dialogData.mode === 'register'" @morph>
+            <mat-label>Confirm Password</mat-label>
+            <input formControlName="confirmPassword" type="password" class="pwd" matInput>
+          </mat-form-field>
+          <mat-error *ngIf="dialogData.mode === 'register'">{{authFormGroup.get('passwordGroup')?.getError('passwordNotMatch')}}</mat-error>
+        </div>
+
+        <div>
+          <p *ngIf="dialogData.mode === 'register'">
+            <button type="submit" class="btn" mat-raised-button color="primary" [disabled]="authFormGroup.invalid">Register</button>
+          </p>
+          <p *ngIf="dialogData.mode === 'login'">
+            <button type="submit" class="btn" mat-raised-button color="primary" >Login</button>
+        </div>
+
+        <div>
+          <p *ngIf="dialogData.mode === 'login'">
+            Don't have an account? <a (click)=renderRegister() style="text-decoration: underline;">Register</a>
+          </p>
+          <p *ngIf="dialogData.mode === 'register'">
+            Already have an account? <a (click)=renderLogin()  style="text-decoration: underline;">Log in</a>
+          </p>
+        </div>
+      </form>
+    </mat-card-content>
+
+  </mat-card>
+</div>

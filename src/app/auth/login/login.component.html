@@ -1,0 +1,42 @@
+
+<main class="container" style="margin-top: 40px;">
+  <div fxLayout fxLayoutAlign="center" style="margin: 50px 50px;">
+    <mat-card class="login-card"  fxFlex="1 1 30%" fxFlex.lt-sm="1 1 auto">
+      <mat-card-title style="display: flex; flex-direction: column; align-items: center;">Log in to your Eureka account</mat-card-title>
+      <p></p>
+
+      <!-- ngForm 即使拿掉，也会被自动加上 -->
+      <form ngForm #loginFormInstance="ngForm" fxLayout="column" (ngSubmit)="login(loginFormInstance)" >
+        <!-- #loginFormInstance 是一个ngForm的instance 被传递给login(). #用来创造一个variable in template -->
+        <mat-form-field>
+          <mat-label>Username</mat-label>                 <!-- 用mat-form-field包裹 -->
+          <input matInput type="text" ngModel name="username" required minlength="3">        <!-- ngModel + name 让angular控制form -->
+          <!--  错误提示 会自动显示错误的提示     -->
+          <mat-error>at least 3 characters</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" ngModel name="password" class="pwd" required>
+          <mat-error>password is required</mat-error>
+        </mat-form-field>
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <p>
+            <button mat-raised-button color="primary" type="submit" class="pwd" [disabled]="loginFormInstance.invalid">Login</button>
+          </p>
+          <p>
+            Don't have an account? <a routerLink="/register" style="text-decoration: underline;">Register</a>
+          </p>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+        <div class="alert alert-success" *ngIf="auth.user">
+          Welcome back, {{ auth.user.username }}.
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</main>

@@ -1,0 +1,92 @@
+<div *ngIf="!loading">
+  <div class="col-sm-12 course-container" fxLayout="row">
+    <div class="col-sm-9 lecture-frame">
+      <router-outlet></router-outlet>
+      <!-- Tab links -->
+      <div class="tabs">
+        <mat-tab-group (selectedTabChange)="tabChanged($event)" mat-stretch-tabs="false"
+                       mat-align-tabs="center">
+          <mat-tab label="Overview">
+            <div class="tab-content" fxLayout="column">
+              <h2>About this course</h2>
+              {{course.overview}}
+              <mat-divider></mat-divider>
+              <div class="by-the-numbers" fxFlex="row" fxLayoutGap="50px">
+                <p fxFlex="20%">By the numbers</p>
+                <div class="level-enrollment-language" fxFlex="column">
+                  <p>Skill level: {{course.level}}</p>
+                  <p>Student: {{enrollments.length}}</p>
+                  <p>Language: {{course.language}}</p>
+                </div>
+                <div class="lectures-totalDuration"  fxFlex="column">
+                  <p>Lectures: {{getTotalLectures(course)}}</p>
+                  <p>Video: {{getTotalCourseDuration(course)}} total hours</p>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+              <div class="description" fxFlex="row" fxLayoutGap="50px">
+                <p fxFlex="20%">Description</p>
+                <p [innerHTML]="course.description"></p>
+              </div>
+              <mat-divider></mat-divider>
+              <div class="instructor" fxFlex="row" fxLayoutGap="50px">
+                <p fxFlex="20%">Instructor</p>
+                <div fxLayout="column" fxLayoutGap="20px">
+                  <div fxLayout="row" fxLayoutGap="20px" class="instructor-row" fxLayoutAlign="start start">
+                    <app-profile-image [firstname]="instructor.firstname" [lastname]="instructor.lastname"
+                                       [imageUrl]="instructor.profileImage ? instructor.profileImage.filePath : null"
+                                       [size]="70"
+                                       [fontSize]="30">
+                    </app-profile-image>
+                    <div fxLayout="column" class="instructor-info" fxLayoutAlign="center start">
+                      <p class="instructor-name">{{instructor.firstname}} {{instructor.lastname}}</p>
+                      <p>{{instructor.overview}}</p>
+                    </div>
+                  </div>
+                  <p>{{instructor.description}}</p>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Reviews" >
+            <app-learner-review [reviews]="reviews" [course]="course"></app-learner-review>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+
+
+    <div class="course-content-container col-sm-3">
+      <h2 class="course-content">Course content</h2>
+      <mat-accordion multi="true">
+        <mat-expansion-panel *ngFor="let section of course.sectionList; let i = index" [expanded]="isExpanded[i]" (opened)="markAsExpanded(i)"
+                             (closed)="markAsCollapsed(i)">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="panel-title" fxLayout="column" fxLayoutGap="5px">
+              <p  class="section-title">Section {{i+1}}: {{ section.title }}</p>
+              <span class="section-info">{{section.lectures.length}} • {{ getTotalSectionDuration(section) }} min </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ul>
+            <li *ngFor="let lecture of section.lectures; let j = index" style="display: flex; justify-content:
+            space-between;"  fxLayoutGap="15px">
+              <a [routerLink]="['/course-detail', course.id, 'learn', 'lecture', lecture.id]" class="panel-content">
+                {{j+1}}.{{ lecture.title }}
+              </a>
+              <span>{{ getLectureDuration(lecture) }} </span>
+            </li>
+          </ul>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="loading">
+  <!-- Loading indicator -->
+  Loading...
+</div>

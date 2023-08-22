@@ -1,0 +1,131 @@
+
+<form [formGroup]="form" (ngSubmit)="handleSubmit()" >
+  <h1 class="manage-course-title">Curriculum</h1>
+  <div class="row-container"  fxLayout="row">
+      <div class="sections-container">
+        <div formArrayName="sections" *ngFor="let section of toIterable(sections); let sectionIndex = index">
+
+          <div [formGroupName]="sectionIndex" style="width: 100%; border: 1px solid #000; padding: 10px; position:
+          relative;
+        margin-bottom: 5px;">
+            <h2>
+            <span *ngIf="!section.get('editMode')?.value">Section {{ sectionIndex + 1 }}: <mat-icon>insert_drive_file</mat-icon> {{
+              section.get('sectionName')?.value }}</span>
+              <input type="text" *ngIf="section.get('editMode')?.value" formControlName="sectionName" />
+              <button mat-icon-button *ngIf="!section.get('editMode')?.value" (click)="toggleEditMode(section)"><mat-icon>edit
+              </mat-icon></button>
+              <button mat-icon-button *ngIf="section.get('editMode')?.value" (click)="editSectionName(section)"><mat-icon>save
+              </mat-icon></button>
+              <button mat-icon-button (click)="confirmDeleteSection(sectionIndex)"><mat-icon>delete</mat-icon></button>
+            </h2>
+
+            <div formArrayName="lectures" *ngFor="let lecture of toIterable(getLectures(section)); let
+            lectureIndex = index" fxLayoutAlign="end">
+              <div [formGroupName]="lectureIndex" fxLayout="column" style="width: 95%; border: 1px solid #000; padding: 10px;
+            position: relative; margin-bottom: 5px;">
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <h3>
+                  <span *ngIf="!lecture.get('editMode')?.value"><mat-icon>check_circle</mat-icon> Lecture {{ lectureIndex
+                  + 1 }}: <mat-icon>
+                    insert_drive_file</mat-icon> {{
+                    lecture.get('lectureName')?.value }}</span>
+                    <input type="text" *ngIf="lecture.get('editMode')?.value" formControlName="lectureName" />
+                    <button mat-icon-button *ngIf="!lecture.get('editMode')?.value" (click)="toggleEditMode(lecture)"><mat-icon>
+                      edit</mat-icon></button>
+                    <button mat-icon-button *ngIf="lecture.get('editMode')?.value"
+                            (click)="editLectureName(lecture)"><mat-icon>save</mat-icon></button>
+                    <button mat-icon-button (click)="confirmDeleteLecture(sectionIndex, lectureIndex)"><mat-icon>delete
+                    </mat-icon></button>
+                  </h3>
+
+
+                  <div style="width: 150px; text-align: right">
+                    <button mat-button color="primary"
+                            (click)=openPanel(lecture) class="add-content-button"
+                            *ngIf="!lecture.get('isPanelOpen')?.value && !lecture.get('videoUrl')?.value">
+                      <mat-icon>add</mat-icon>
+                      Content
+                    </button>
+                    <button  mat-button color="primary"
+                             (click)="togglePanel(lecture)" class="preview-content-button"
+                             *ngIf="lecture.get('videoUrl')?.value">
+                      <mat-icon>videocam</mat-icon>
+                      Preview
+                    </button>
+
+                    <button mat-button color="primary" (click)="clearSelection(lecture)" class="replace-content-button"
+                            *ngIf="lecture.get('isPanelOpen')?.value && !lecture.get('videoUrl')?.value">
+                      <mat-icon>find_replace</mat-icon>
+                      Replace
+                    </button>
+                  </div>
+                </div>
+
+
+
+                <div *ngIf=" !isLoading.get(lecture) && lecture.get('isPanelOpen')?.value && !lecture.get('videoUrl')?.value"
+                     class="select-video-panel">
+                  <mat-form-field  style="width: 60%;" >
+                    <mat-label >Select a video for the lecture</mat-label>
+                    <button mat-icon-button matPrefix (click)="f_input.click()">
+                      <mat-icon>ondemand_video</mat-icon>
+                    </button>
+
+                    <input type="text" readonly matInput [formControl]="displayTexts.get(lecture)!"
+                           (focus)="lecture.get('isPanelInteracted')?.setValue(true)" />
+                    <input type="file" hidden #f_input   (change)="getOnFileSelectedFunction(lecture)(f_input.files)" />
+                    <mat-error  *ngIf="isFieldTouchedAndInvalid(lecture)" >this field is required</mat-error>
+                  </mat-form-field>
+                  <button mat-icon-button
+                          (click)="lecture.get('isPanelOpen')?.setValue(false)"><mat-icon>close</mat-icon>
+                  </button>
+
+                </div>
+
+                <div *ngIf="isLoading.get(lecture)">
+                  <mat-progress-bar mode="determinate" [value]="this.progress.get(lecture)"></mat-progress-bar>
+                </div>
+
+                <div *ngIf="!isLoading.get(lecture) && lecture.get('isPanelOpen') && lecture.get('videoUrl')?.value"
+                     class="video-preview-panel">
+                  <!--            <video width="280" height="210" controls>
+                                <source [src]="lecture.get('videoUrl')?.value" type="video/mp4">
+                                Your browser does not support the video tag.
+                              </video>-->
+                  <iframe *ngIf="lecture.get('isPanelOpen')?.value && lecture.get('videoUrl')?.value" width="200"
+                          height="150" [src]="lecture.get('videoUrl')?.value  | safe" title="YouTube video player"
+                          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  <p *ngIf="lecture.get('isPanelOpen')?.value && lecture.get('videoUrl')?.value">Duration:
+                    {{convertDuration(lecture.get('duration')?.value)}}</p>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+            <button mat-button color="primary" (click)="addLecture(sectionIndex)">
+              <mat-icon>add</mat-icon>
+              Curriculum item
+            </button>
+          </div>
+        </div>
+
+        <button mat-button color="primary"  (click)="addSection()">
+          <mat-icon>add</mat-icon>
+          Section
+        </button>
+      </div>
+
+
+      <div class="parent-container">
+        <button *ngIf="selectedFiles.size===0" mat-raised-button color="primary" type="button"
+                class="manage-course-save-button" (click)="onFinalize()">Finalize
+        </button>
+        <button *ngIf="selectedFiles.size!==0" mat-raised-button color="primary" type="submit"
+                class="manage-course-save-button">Save</button>
+      </div>
+    </div>
+
+</form>

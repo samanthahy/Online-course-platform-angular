@@ -1,0 +1,35 @@
+
+.course-image {
+  width: 250px; /* or any other size */
+  height: 150px; /* or any other size */
+  object-fit: cover; /* this will make sure the image covers the whole area without distortion */
+}
+
+mat-card-title {
+  font-size: medium;
+  font-weight: bold;
+  color: black;
+}
+
+mat-card-subtitle {
+  color: dimgray;
+}
+
+
+mat-card-content {
+  color: gray;
+}
+
+.course-price {
+  font-weight: bold !important;
+  color: black !important;
+}
+
+ngb-rating {
+  color: #FFC107;
+  font-size: 20px;
+}
+
+a {
+  text-decoration: none !important;
+}

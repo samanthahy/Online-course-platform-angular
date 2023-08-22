@@ -1,0 +1,31 @@
+<div class="dialog-container">
+
+  <h2 class="title">{{existingReview ? 'Edit your review' : 'Leave a review'}}</h2>
+
+  <div class="stars">
+    <button (click)="setRating(i)" *ngFor="let star of stars; let i = index"
+            [ngClass]="{'selected': i < rating}">&#9733;</button>
+  </div>
+
+  <div class="criteria">
+    <h3 class="sub-title">Why did you leave this rating?</h3>
+    <p>5 star: Amazing, above expectations!</p>
+    <p>4 star: Good, what I expected<p>
+    <p>3 star: Average, could be better<p>
+    <p>2 star: Poor, pretty disappointed<p>
+    <p>1 star: Awful, not what I expected at all<p>
+  </div>
+
+  <form [formGroup]="form" class="review-form">
+    <textarea formControlName="content" rows="5" placeholder="Write your review here..."></textarea>
+  </form>
+
+  <div class="buttons">
+    <button *ngIf="!existingReview" class="submit-button" (click)="submit()">Submit</button>
+    <button *ngIf="existingReview" class="edit-button" (click)="submit()">Edit</button>
+    <button *ngIf="existingReview" class="delete-button" (click)="delete()">Delete</button>
+    <button class="cancel-button" (click)="cancel()">Cancel</button>
+  </div>
+
+</div>
+

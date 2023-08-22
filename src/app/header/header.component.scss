@@ -1,0 +1,120 @@
+
+.navbar{
+  background-color: rgb(28,29,31);
+  height: 100px;
+}
+
+.navbar a {
+  color:white;
+}
+
+.navbar button {
+  color: white;
+}
+
+.company-name {
+  font-size: xx-large;
+  margin-left: 35px;
+  font-family: Trattatello, fantasy;
+}
+
+.nav-item .profile-image-link {
+  line-height: 30px;
+  text-decoration: none;
+}
+
+.nav-item .profile-image-link img {
+  height: 30px;
+  width: 30px;
+}
+
+
+.nav-link { // This targets your <a> element
+  position: relative;
+
+}
+
+.cart-count-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  // ... other styles you've defined for the badge
+}
+
+
+
+.navbar-brand {
+  margin-left: 20px;
+}
+
+.nav-profile {
+  margin-right: 20px;
+}
+
+.nav-item {
+  margin: 5px;  /* Adjust as needed */
+}
+
+
+.cart-count-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red; /* You can adjust this color */
+  color: white;
+  padding: 0.2em 0.5em;
+  border-radius: 50%; /* Makes it circular */
+  font-size: 0.7em;
+  line-height: 1;
+  min-width: 1em;
+  text-align: center;
+}
+
+
+/* Styling the menu container */
+.mat-menu-panel {
+  background-color: black;
+}
+
+/* Styling the individual menu items */
+.mat-menu-item {
+  color: white;
+}
+
+/* Styling the menu item hover state */
+.mat-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* slight white overlay on hover */
+}
+
+
+/* styles.css or header.component.css */
+.main-nav-item-container {
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+}
+
+
+.main-nav-item-container a {
+  margin-right: 20px;  /* Adjust this value as per your design needs */
+}
+
+
+
+
+.search-form {
+  flex-basis: 100%; /* This makes the form occupy 40% of the header's width */
+  margin-left: 20px; /* This pushes the form away from the categories button */
+}
+
+.search-form input {
+  width: 90%; /* Makes the input occupy the full width of its parent .search-form */
+  border-radius: 25px; /* Adjust this value depending on the height of your input to get the desired rounded effect */
+  border: 1px solid #ccc; /* Add a border if your input doesn't have one already */
+  padding: 5px 10px; /* Add some padding for better appearance */
+}
+
+
+.search-form-submit-btn {
+  margin-left: 20px;
+}

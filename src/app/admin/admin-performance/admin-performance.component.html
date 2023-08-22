@@ -1,0 +1,142 @@
+
+
+<div class="col-sm-11 admin-performance-container">
+  <h1 class="admin-performance-title">Insights and reporting</h1>
+  <!-- Striking Style for Numbers -->
+  <div class="numbers-container" fxLayout="column">
+
+    <h2 class="sub-title">User activity</h2>
+
+    <div fxLayout="row" fxLayoutAlign="start start" fxFlexFill>
+      <div *ngIf="activeUsers" class="number-item">
+        <span class="number">{{ activeUsers }} </span>
+        <label> Active Users</label>
+      </div>
+      <div *ngIf="activeCourses" class="number-item">
+        <span class="number">{{ activeCourses }} </span>
+        <label> Active Courses</label>
+      </div>
+      <div *ngIf="enrollments" class="number-item">
+        <span class="number">{{ enrollments }} </span>
+        <label> Enrollments</label>
+      </div>
+      <div *ngIf="averageProgress" class="number-item">
+        <span class="number">{{ averageProgress.toFixed(2) }} </span>
+        <label> Average Progress (%)</label>
+      </div>
+      <div *ngIf="averageRating" class="number-item">
+        <span class="number">{{ averageRating.toFixed(2) }} </span>
+        <label> Average Rating</label>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="review-chart-container" fxLayout="column">
+    <h2 class="sub-title">Ratings and reviews</h2>
+
+    <div fxLayout="row">
+      <!-- Pie Chart for Ratings -->
+      <div class="review-chart-item" style="display: block;">
+        <canvas baseChart
+                [data]="pieChartData"
+                [type]="pieChartType"
+                [options]="pieChartOptions">
+        </canvas>
+      </div>
+
+
+      <!-- Recent reviews section -->
+      <div class="reviews-section">
+        <h3 class="sub-sub-title">Reviews in last 7 days</h3>
+
+        <!-- Iterate over the reviewDistribution array -->
+        <ng-container *ngFor="let index of [4,3,2,1,0]; let i = index">
+          <div class="rating-section" fxLayout="row" fxLayoutGap="40px">
+
+            <h4 fxFlex="12%"><span class="star-icon">&#9733;</span> {{ index + 1}} Star Reviews</h4>
+
+            <!-- Display the reviews for this particular star rating -->
+            <div  fxLayout="column" fxLayoutGap="20px">
+              <ng-container *ngIf="getRecentReviews(reviewDistribution[4-i]).length > 0">
+                <div *ngFor="let review of getRecentReviews(reviewDistribution[4-i])" fxLayout="column" fxLayoutGap="20px">
+                  <div class="review" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
+                    <div  fxFlex="15%">
+                      {{review.course.name}}
+                    </div>
+                    <div class="user-profile-image" *ngIf="reviewerInfosMap.get(review.id)?.firstname &&
+                    reviewerInfosMap.get(review.id)?.lastname">
+                      <app-profile-image [firstname]="reviewerInfosMap.get(review.id)?.firstname ?? ''"
+                                         [lastname]="reviewerInfosMap.get(review.id)?.lastname ?? ''"
+                                         [imageUrl]="reviewerInfosMap.get(review.id)?.profileImage?.filePath ?? null"
+                                         [size]="50"
+                                         [fontSize]="20">
+                      </app-profile-image>
+
+                    </div>
+
+                    <div class="review-content" fxLayout="column" fxFlex="65%">
+                      <div class="rating">
+                        <span *ngFor="let star of [].constructor(5); let j = index" [class.active]="j < review.rating" class="star">&#9733;</span> <!-- Star symbol -->
+                        <span> {{timeAgo(review.createTime)}}</span>
+                      </div>
+
+                      <div class="user-info">
+                        {{ reviewerInfosMap.get(review.id)?.firstname }} {{ reviewerInfosMap.get(review.id)?.lastname }}
+                      </div>
+                      <div class="content">
+                        {{ review.content }}
+                      </div>
+                    </div>
+
+                    <button mat-icon-button aria-label="Delete Review" (click)="deleteReview(review.id)" class="delete-button">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                  <mat-divider></mat-divider>
+                </div>
+              </ng-container>
+
+            </div>
+
+
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <div class="revenue-chart-container">
+    <h2 class="sub-title">Gross revenue trend</h2>
+    <!-- Line Chart for Gross Revenue -->
+    <div class="revenue-chart-item">
+      <canvas baseChart
+              [data]="lineChartData"
+              [type]="lineChartType"
+              [options]="lineChartOptions">
+      </canvas>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

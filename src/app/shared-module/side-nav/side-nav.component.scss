@@ -1,0 +1,25 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px; /* Width when expanded */
+}
+
+.sidenav.collapsed {
+  width: 70px; /* Width when collapsed */
+}
+
+.sidenav .nav-caption {
+  display: none;
+}
+
+.sidenav:not(.collapsed) .nav-caption {
+  display: inline;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}

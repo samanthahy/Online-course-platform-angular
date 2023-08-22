@@ -1,0 +1,57 @@
+
+<form [formGroup]="form" (ngSubmit)="submit()" fxFlex >
+  <h1 class="manage-course-title">Intended learners</h1>
+  <div fxLayout="row">
+    <div fxLayout="column">
+      <p class="manage-course-question">What will students learn in your course?</p>
+      <p>You must enter at least 4 learning objectives or outcomes that learners can expect to achieve after completing your course.</p>
+
+      <div formArrayName="learning_outcomes">
+        <div *ngFor="let outcome of learningOutcomes.controls; let i = index">
+          <mat-form-field class="learning-outcomes">
+            <input matInput [formControlName]="i"
+                   placeholder="Example: Define the roles and responsibilities of a project manager">
+          </mat-form-field>
+
+          <!-- Only show the delete button if the index is >= 4 (0-indexed) -->
+          <button *ngIf="i >= 4" mat-icon-button (click)="removeLearningOutcome(i)"  type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <button mat-icon-button (click)="addLearningOutcome()" [disabled]="!isLearningOutcomesValid()" type="button">
+          <mat-icon>add</mat-icon>
+        </button>
+
+      </div>
+
+      <p class="manage-course-question">What are the requirements or prerequisites for taking your course?</p>
+      <p>List the required skills, experience, tools or equipment learners should have prior to taking your course. If there are no requirements, use this space as an opportunity to lower the barrier for beginners.</p>
+
+      <div formArrayName="prerequisites">
+        <div *ngFor="let prerequisite of prerequisites.controls; let i = index">
+          <mat-form-field class="prerequisites">
+            <input matInput [formControlName]="i"
+                   placeholder="Example: No programming experience needed. You will learn everything you need to know">
+          </mat-form-field>
+
+          <!-- Only show the delete button if the index is >= 1 (0-indexed) -->
+          <button *ngIf="i >= 1" mat-icon-button (click)="removePrerequisite(i)"  type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <button mat-icon-button (click)="addPrerequisite()" [disabled]="!isPrerequisitesValid()" type="button">
+          <mat-icon>add</mat-icon>
+        </button>
+
+      </div>
+    </div>
+
+    <div class="parent-container">
+      <button mat-raised-button color="primary" type="submit" class="manage-course-save-button">Save</button>
+    </div>
+
+  </div>
+
+</form>

@@ -1,0 +1,29 @@
+.manage-course-title {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+
+.manage-course-question {
+  margin-top: 50px;
+  font-size: large;
+  font-weight: bold;
+}
+
+mat-form-field {
+  width: 1200px; /* set the width as per your requirement */
+}
+
+
+.parent-container {
+  position: relative;
+}
+
+.manage-course-save-button {
+  position: absolute;
+  left: 150px;
+  top: 80px;
+  width: 250px;
+  height: 60px;
+  background-color: mediumpurple;
+}

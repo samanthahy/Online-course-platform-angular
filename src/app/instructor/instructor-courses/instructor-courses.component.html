@@ -1,0 +1,64 @@
+<!-- instructor-courses.component.html -->
+<div class="container-fluid row" xmlns="http://www.w3.org/1999/html" xmlns:fxLayoutAlign="http://www.w3.org/1999/xhtml">
+  <div class="col-sm-9 instructor-courses-container">
+    <h1 class="instructor-courses-title">Courses</h1>
+    <div fxLayout="column" fxLayoutGap="15px">
+      <div class="search-bar">
+        <!-- Add your search bar here -->
+      </div>
+
+      <div class="new-course-button">
+        <button mat-raised-button color="primary" (click)="createNewCourse()">New Course</button>
+      </div>
+
+      <div class="courses-container" fxLayout="column" fxLayoutGap="10px">
+        <mat-card  *ngFor="let course of courses" fxLayout="row" fxLayoutGap="10px"
+                   fxLayoutAlign="space-between center" (click)="navigateToEditPage(course)" class="interactive-card">
+          <!-- Course Image -->
+          <img mat-card-image class="course-image" [src]="course.courseImage.filePath" alt="Course image">
+
+          <div fxFlex class="card-wrapper">
+            <div  fxLayout="column" fxFlex class="card-content">
+              <!-- Course Details -->
+              <mat-card-header fxFlex="45%">
+                <mat-card-title class="courses-title">{{course.name}}</mat-card-title>
+              </mat-card-header>
+
+              <div fxFlex fxLayout="row" fxLayoutAlign="end">
+                <mat-card-content fxFlex="55%">
+                  <p>{{course.status}}</p>
+                </mat-card-content>
+
+                <!-- Course Price -->
+                <div class="course-price" fxFlex="15%">
+                  <p>${{course.price}}</p>
+                </div>
+
+                <!-- Course Enrollments -->
+                <div class="course-enrollments" fxFlex="15%" fxLayout="column" fxLayoutGap="5px">
+                  <p>{{ courseEnrollmentsCountMap.get(course.id) }}</p>
+                  <p>Enrollments</p>
+                </div>
+
+                <div class="course-rating" fxFlex="15%" fxLayout="column" fxLayoutGap="5px">
+                  <p>{{ course.rating }} <ngb-rating [max]="5" [rate]="starRatingMap.get(course.id) || 0"
+                                                    [readonly]="true"></ngb-rating></p>
+                  <p>Course rating</p>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="hover-overlay">
+              <div class="hover-text">Edit / manage course</div>
+            </div>
+          </div>
+
+        </mat-card>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+

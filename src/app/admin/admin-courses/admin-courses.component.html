@@ -1,0 +1,87 @@
+<div class="container-fluid row" xmlns="http://www.w3.org/1999/html" >
+  <div class="col-sm-9 admin-courses-container">
+    <h1 class="admin-courses-title">Admin Courses</h1>
+    <div fxLayout="column" fxLayoutGap="15px">
+
+      <div class="filter-container" fxFlex>
+        <mat-form-field class="full-width-filter">
+          <mat-label>Filter Courses</mat-label>
+          <input matInput (keyup)="filterCourses($event)" placeholder="Ex. Python">
+        </mat-form-field>
+      </div>
+
+      <div class="course-list-header" fxLayout="row" fxLayoutGap="10px">
+        <div fxFlex="36%">
+          <button mat-button (click)="sortCoursesBy('name')">Course Name</button>
+        </div>
+        <div fxFlex="20%">
+          <button mat-button (click)="sortCoursesBy('instructor')">Instructor</button>
+        </div>
+        <div fxFlex="28%">
+          <button mat-button (click)="sortCoursesBy('enrollments')">Enrollments</button>
+        </div>
+        <div fxFlex="16%">
+          <button mat-button (click)="sortCoursesBy('status')">Actions</button>
+        </div>
+      </div>
+
+
+      <div class="courses-container" fxLayout="column" fxLayoutGap="10px">
+        <mat-card *ngFor="let course of displayedCourses" fxLayout="row" fxFlex fxLayoutGap="10px"
+                  fxLayoutAlign="space-between center" class="interactive-card">
+          <!-- Course Image -->
+          <img mat-card-image class="course-image" [src]="course.courseImage.filePath" alt="Course image">
+
+          <div fxLayout="column" fxFlex class="card-content">
+            <!-- Course Details -->
+            <mat-card-header>
+              <mat-card-title class="courses-title">{{course.name}}</mat-card-title>
+            </mat-card-header>
+
+            <div class="course-content" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+              <mat-card-content fxFlex="35%">
+                <p  class="course-status" >{{course.status}}</p>
+              </mat-card-content>
+
+
+              <mat-card-content class="courses-instructor" fxFlex="24%">
+                {{instructorInfoMap.get(course.id)}}
+              </mat-card-content>
+
+              <!-- Course Enrollments -->
+              <div class="course-enrollments" fxFlex="16%">
+                <p>{{ courseEnrollmentsCountMap.get(course.id) }}</p>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="course-actions" fxFlex="25%" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center">
+                <button mat-raised-button *ngIf="course.status==='Pending approval'"
+                        (click)="navigateToDetailPage(course.id)">Preview
+                </button>
+                <button mat-raised-button *ngIf="course.status==='Pending approval'" color="warn" (click)="rejectCourse(course.id)">
+                  Reject</button>
+                <button mat-raised-button *ngIf="course.status==='Pending approval'" color="primary"
+                        (click)="approveCourse(course.id)">Approve</button>
+                <button mat-raised-button *ngIf="course.status==='Published'" color="warn"
+                        (click)="deactivateCourse(course.id)">Deactivate</button>
+                <button mat-raised-button *ngIf="course.status==='Deactivated'" color="primary"
+                        (click)="activateCourse(course.id)">Activate</button>
+              </div>
+            </div>
+
+          </div>
+
+
+        </mat-card>
+      </div>
+
+      <!-- Paginator Component -->
+      <mat-paginator [length]="totalCourses"
+                     [pageSize]="pageSize"
+                     [pageSizeOptions]="pageSizeOptions"
+                     (page)="pageChanged($event)">
+      </mat-paginator>
+
+    </div>
+  </div>
+</div>

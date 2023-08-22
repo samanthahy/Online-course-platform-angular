@@ -1,0 +1,23 @@
+.manage-course-save-button {
+  position: absolute;
+  left: 200px;
+  top: 80px;
+  width: 250px;
+  height: 60px;
+  background-color: mediumpurple;
+}
+
+
+.row-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.sections-container {
+  width: 1200px; /* Set your preferred fixed width here */
+}
+
+.parent-container {
+  position: relative;
+}
+

@@ -1,0 +1,32 @@
+.page-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.courses-title {
+  font-size: x-large; /* Adjust this value to make the text larger or smaller */
+  font-weight: bold;
+  margin-left: 350px;
+  margin-top: 30px;
+}
+
+
+::ng-deep mat-panel-title {
+  //font-weight: bold;
+  font-size: large;
+  font-weight: bold;
+}
+
+.mat-expansion-panel {
+  margin: 0 !important;
+}
+
+.courses-container {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.courses-filter-column {
+  padding-right: 50px;
+}
