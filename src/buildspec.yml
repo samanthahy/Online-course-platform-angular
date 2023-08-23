@@ -1,17 +1,24 @@
 version: 0.2
+
+env:
+  variables:
+    CACHE_CONTROL: "86400"
+    S3_BUCKET: "{{s3_bucket_url}}"
+    BUILD_FOLDER: "dist"
 phases:
   install:
     runtime-versions:
-      nodejs: 12
+      nodejs: 14
     commands:
       - echo "Installing dependencies..."
       - npm install
       - npm install -g @angular/cli@15.2.8
-    build:
-      commands:
-        - echo "Building Angular project..."
-        - ng build --configuration production
-      post_build:
-        commands:
-          - echo "Updating files in the S3 bucket..."
-          - aws s3 sync dist/online-course-platform-frontend/ s3://course-platform-ngcode --delete
+  build:
+    commands:
+      - echo "Building Angular project..."
+      - ng build --configuration production
+artifact:
+    files:
+      - '**/*'
+    base-directory: 'dist*'
+    discard-paths: yes
