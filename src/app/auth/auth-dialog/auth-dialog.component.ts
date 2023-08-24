@@ -1,9 +1,12 @@
 import {Component, Inject} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {AuthService} from "../../shared/services/auth.service";
+import {AuthService, LoginResponse} from "../../shared/services/auth.service";
 import {Router} from "@angular/router";
 import {$animations} from "./auth-dialog-animations";
+import {delay, finalize} from "rxjs";
+import {CartService} from "../../shared/services/cart.service";
+import {DialogComponent} from "../../shared-module/dialog/dialog.component";
 
 
 
@@ -26,14 +29,18 @@ export class AuthDialogComponent {
 
   authFormGroup!: FormGroup;
   public dialogData: authDialogData;
+  errorMessage: string = '';
+
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: authDialogData,
     private fb: FormBuilder,
-    private auth: AuthService,
+    public auth: AuthService,
     private router: Router,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AuthDialogComponent>,
+    private cartService: CartService
   ) {
     this.dialogData = data || { mode: 'default' };
     console.log(this.dialogData);
@@ -61,8 +68,12 @@ export class AuthDialogComponent {
   }
 
   static passwordValidator({value: {password, confirmPassword}}: FormGroup): null | { passwordNotMatch: string } {
+    if (!password || !confirmPassword) {
+      return null;
+    }
     return password === confirmPassword ? null : {passwordNotMatch: 'Password and confirm password must be the same'};
   }
+
 
   registerOrLogin() {
     if (this.authFormGroup.valid) {
@@ -72,27 +83,71 @@ export class AuthDialogComponent {
       const registerData = {fullname, username, email, password, role:'ROLE_INSTRUCTOR'};
 
 
-      const handleSuccess = () => {
-        this.router.navigate(['/instructor/courses']);  // Navigate to the instructor's courses page
-      };
 
       if (this.dialogData.mode === 'login') {
-        this.auth.login(loginData).subscribe({
-          next: handleSuccess,
-          error: (error) => {
-            // handle error here
+        this.auth.login(loginData).subscribe(
+          (res: LoginResponse) => {
+            if (res.success) {
+              console.log('login succeed');
+              this.errorMessage = '';
+
+              // After successful login, merge local cart with backend
+              this.cartService.mergeLocalCartWithBackend().pipe(
+                finalize(() => {
+                  this.cartService.initializeCartCount();
+                })
+              ).subscribe(
+                () => {},
+                (error) => {
+                  console.error("Error merging local cart with backend:", error);
+                },
+                () => {
+                  setTimeout(() => {
+                    this.router.navigate(['/instructor/courses']).then(() => {
+                      // Close the dialog after navigation
+                      this.dialogRef.close();
+                    }).catch(error => console.log(error))
+                  }, 3000);
+                }
+              );
+            } else if (res.code === 403 && res.message.includes('Account is deactivated')) {
+              // Handle the "Deactivated" account scenario
+              this.errorMessage = 'Your account has been deactivated. Please contact support.';
+            } else {
+              console.log('login failed');
+              this.errorMessage = res.message;
+            }
+          },
+          (err) => {
+            alert(err); // Handle HTTP error responses
           }
-        });
+        )
       } else if (this.dialogData.mode === 'register') {
         this.auth.register(registerData).subscribe({
-          next: handleSuccess,
+          next: (response) => {
+            // Display success dialog
+            const promtDialogRef = this.dialog.open(DialogComponent, {
+              data: { title: 'Success', content: 'Registration successful! Redirecting to login...' }
+            });
+            // Close dialog after 3 seconds and navigate to login page
+            promtDialogRef.afterOpened().pipe(delay(3000)).subscribe(() => {
+              promtDialogRef.close();
+              this.dialogData.mode = 'login';
+              // Reset the form for login mode
+              this.ngOnInit();
+            });
+          },
           error: (error) => {
-            // handle error here
+            // Display error dialog
+            this.dialog.open(DialogComponent, {
+              data: { title: 'Error', message: 'Something went wrong! Please try again.' }
+            });
           }
         });
       }
     }
   }
+
 
   getDefaultDialogConfig(): MatDialogConfig {
     const config = new MatDialogConfig();

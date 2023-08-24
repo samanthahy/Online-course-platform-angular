@@ -16,7 +16,7 @@
     build:
       commands:
         - echo Build started
-        - ng build
+        - ng build --configuration=production
   artifacts:
     files:
       - '**/*'

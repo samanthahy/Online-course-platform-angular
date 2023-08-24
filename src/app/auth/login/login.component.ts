@@ -57,6 +57,9 @@ export class LoginComponent  {
                 }, 3000);
               }
             );
+          } else if (res.code === 403 && res.message.includes('Account is deactivated')) {
+            // Handle the "Deactivated" account scenario
+            this.errorMessage = 'Your account has been deactivated. Please contact support.';
           } else {
             console.log('login failed');
             this.errorMessage = res.message;
