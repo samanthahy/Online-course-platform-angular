@@ -15,8 +15,8 @@ phases:
         - npm install -g @angular/cli@15.2.8
   build:
     commands:
-        - echo Build started 
-        - ng build
+        - echo Build started
+        - ng build --configuration=production
 artifacts:
     files:
         - '**/*'

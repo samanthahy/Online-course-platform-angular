@@ -55,6 +55,14 @@
             Already have an account? <a (click)=renderLogin()  style="text-decoration: underline;">Log in</a>
           </p>
         </div>
+
+        <div class="alert alert-danger" *ngIf="dialogData.mode === 'login' && errorMessage">
+          {{ errorMessage }}
+        </div>
+        <div class="alert alert-success" *ngIf="dialogData.mode === 'login' && auth.user">
+          Welcome back, {{ auth.user.username }}.
+        </div>
+
       </form>
     </mat-card-content>
 
