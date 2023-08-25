@@ -138,6 +138,10 @@ export class LearnerReviewComponent implements OnInit {
       // Existing review, update it
       this.reviews[index] = review;
     }
+
+    // recalculate the rating percentage
+    this.calculatePercentages();
+
     // Update your filteredReviews if necessary
     this.filteredReviews = [...this.reviews]; // assuming filteredReviews is derived from reviews
   }

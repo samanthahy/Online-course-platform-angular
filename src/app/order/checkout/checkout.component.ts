@@ -171,6 +171,9 @@ export class CheckoutComponent {
             this.cartItems = [];
           }
 
+          // re-initialize the cart count after successful order creation
+          this.cartService.initializeCartCount();
+
           const orderId = response.id;
 
           // delay for 3 seconds, then stop the progress bar

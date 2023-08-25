@@ -86,8 +86,7 @@
                                [instructor] = "instructorUserInfoMap.get(c.instructor.id)"
                                *ngFor="let c of displayedCourses | ratingFilter:selectedRating |
                                topicFilter:topicFilter |
-                               levelFilter: levelFilter | languageFilter: languageFilter | priceFilter: priceFilter |
-                               keywordFilter:searchTerm:instructorUserInfoMap">
+                               levelFilter: levelFilter | languageFilter: languageFilter | priceFilter: priceFilter">
               </app-course-list>
             </ng-container>
           </div>

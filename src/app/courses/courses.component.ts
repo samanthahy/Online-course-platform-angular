@@ -3,7 +3,7 @@ import {Course} from "../shared/models/course";
 import {CurrencyService} from "../shared/services/currency.service";
 import {CourseService} from "../shared/services/course.service";
 import {MatCheckboxChange} from "@angular/material/checkbox";
-import {forkJoin, map, switchMap, tap} from "rxjs";
+import {forkJoin, map, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {UserInfo} from "../shared/models/user-info";
 import {UserInfoService} from "../shared/services/user-info.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -110,6 +110,7 @@ export class CoursesComponent implements OnInit {
   languageFilter: any[] = [];
   priceFilter: any[] = [];
   displayedCourses: Course[] = [];
+  private destroyed$ = new Subject<void>();
 
 
   instructorUserInfoMap = new Map<number, UserInfo>();
@@ -126,10 +127,10 @@ export class CoursesComponent implements OnInit {
     this.courseService.searchTermChanged.subscribe(term => {
       this.searchTerm = term;
       console.log("Updated Search Term:", this.searchTerm);
+      this.updateCoursesWithFilters(); // apply filters after updating the search term
     });
 
   }
-
 
 
 
@@ -195,12 +196,24 @@ export class CoursesComponent implements OnInit {
         this.courses = courses;
         this.courseService.courses = courses;
 
-        // Update data source with courses
-        this.coursesDataSource.data = courses;
+        // step 1: reset the paginator
+        this.paginator.firstPage();
 
+        // step 2: Update data source with courses
+        this.coursesDataSource.data = courses;
+        this.paginator.length = courses.length;
+
+        // step 3: update displayed courses after filtering
         this.updateDisplayedCourses();
       });
   }
+
+
+
+
+
+
+
 
   ngAfterViewInit() {
     this.coursesDataSource.paginator = this.paginator;
@@ -210,8 +223,12 @@ export class CoursesComponent implements OnInit {
   }
 
 
+
+
+
   updateDisplayedCourses() {
     this.displayedCourses = this.getCurrentPageData();
+    console.log("Paginator:", this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
   }
 
 
@@ -257,8 +274,6 @@ export class CoursesComponent implements OnInit {
 
 
 
-
-
   getCourseCountForRating(rating: number): number {
     if (!this.courses) return 0;
     let filteredCourses = this.applyCommonFilters(this.courses, false); // false indicates not to apply the rating filter
@@ -275,6 +290,26 @@ export class CoursesComponent implements OnInit {
 
   applyCommonFilters(courses: Course[], applyRating: boolean = true): Course[] {
     let filteredCourses = [...courses];
+
+
+    // Apply search term filter
+    if (this.searchTerm) {
+      const searchTermLower = this.searchTerm.toLowerCase();
+
+      filteredCourses = filteredCourses.filter(course => {
+        let instructor = this.instructorUserInfoMap.get(course.instructor.id);
+        let instructorFirstName = instructor ? instructor.firstname : '';
+        let instructorLastName = instructor ? instructor.lastname : '';
+
+        return course.name.toLowerCase().includes(searchTermLower) ||
+          (course.description && course.description.toLowerCase().includes(searchTermLower)) ||
+          (course.overview && course.overview.toLowerCase().includes(searchTermLower)) ||
+          (course.learningOutcomes && course.learningOutcomes.toLowerCase().includes(searchTermLower)) ||
+          (course.prerequisites && course.prerequisites.toLowerCase().includes(searchTermLower)) ||
+          (instructorFirstName && instructorFirstName.toLowerCase().includes(searchTermLower)) ||
+          (instructorLastName && instructorLastName.toLowerCase().includes(searchTermLower));
+      });
+    }
 
     // Apply rating filter only if applyRating is true
     if (applyRating && this.selectedRating) {
@@ -311,18 +346,26 @@ export class CoursesComponent implements OnInit {
 
 
 
+
+
+
   // used for pagination
   updateCoursesWithFilters() {
     if (this.courses) {
       const filteredCourses = this.applyCommonFilters(this.courses);
       this.coursesDataSource.data = filteredCourses;
       this.totalFilteredCourses = filteredCourses.length;
-      console.log('Total Filtered Courses:', this.totalFilteredCourses);
+
+      // console.log('Total Filtered Courses:', this.totalFilteredCourses);
+
+      this.paginator.length = this.totalFilteredCourses; // update paginator length
 
       this.paginator.firstPage();
       this.updateDisplayedCourses();
     }
   }
+
+
 
 
   onRatingChange(): void {
